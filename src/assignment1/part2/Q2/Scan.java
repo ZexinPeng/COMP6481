@@ -11,4 +11,8 @@ public class Scan {
         }
         return scanner;
     }
+
+    public static void reset() {
+        scanner = new Scanner(System.in);
+    }
 }

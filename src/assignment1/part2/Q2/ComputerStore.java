@@ -2,6 +2,8 @@ package assignment1.part2.Q2;
 
 import assignment1.part2.Q1.Computer;
 
+import java.util.LinkedList;
+
 public class ComputerStore {
 
     private Computer[] inventory;
@@ -20,7 +22,49 @@ public class ComputerStore {
             case 2:
                 validatePassword(2);
                 break;
+            case 3:
+                option3();
+                break;
+            case 4:
+                option4();
+                break;
         }
+    }
+
+    private void option4() {
+        double price = Scan.getScanner().nextDouble();
+        LinkedList<Computer> computerList = findCheaperThan(price);
+        for (Computer computer: computerList) {
+            displayComputerInfo(computer);
+        }
+    }
+
+    private LinkedList<Computer> findCheaperThan(double price) {
+        LinkedList<Computer> computerList = new LinkedList<>();
+        for (Computer computer: inventory) {
+            if (computer.getPrice() < price) {
+                computerList.add(computer);
+            }
+        }
+        return computerList;
+    }
+
+    private void option3() {
+        String brand = Scan.getScanner().next();
+        LinkedList<Computer> computerList = findComputerByBrand(brand);
+        for (Computer computer: computerList) {
+            displayComputerInfo(computer);
+        }
+    }
+
+    private LinkedList<Computer> findComputerByBrand(String brand) {
+        LinkedList<Computer> computerList = new LinkedList<>();
+        for (Computer computer: inventory) {
+            if (computer.getBrand().equals(brand)) {
+                computerList.add(computer);
+            }
+        }
+        return computerList;
     }
 
     private void validatePassword(int option) {
@@ -45,7 +89,61 @@ public class ComputerStore {
     }
 
     private void changeComputerInformation() {
-        // TODO
+        System.out.print("Please input the index of the computer(start from 0): ");
+        int index = Scan.getScanner().nextInt();
+        if (index >= currentComputerNum) {
+            System.out.println("The index does not exist. Please input a number that below " + currentComputerNum);
+            System.out.println("Retry input 1, go back to main menu please input 2");
+            switch (Scan.getScanner().nextInt()) {
+                case 1:
+                    changeComputerInformation();
+                    break;
+                case 2:
+                    return;
+            }
+        }
+
+        Computer computer = inventory[index];
+        System.out.println("Computer #" + index);
+        displayComputerInfo(computer);
+        changeComputerInfoImpl(computer);
+    }
+
+    private void changeComputerInfoImpl(Computer computer) {
+        displayChangeComputerInfo();
+        try {
+            int index = Scan.getScanner().nextInt();
+            if (index < 1 || index > 5) {
+                throw new Exception();
+            }
+            switch (index) {
+                case 1:
+                    System.out.print("Please input new brand: ");
+                    computer.setBrand(Scan.getScanner().next());
+                    break;
+                case 2:
+                    System.out.print("Please input new model: ");
+                    computer.setModel(Scan.getScanner().next());
+                    break;
+                case 3:
+                    System.out.print("Please input new SN: ");
+                    computer.setSN(Scan.getScanner().nextLong());
+                    break;
+                case 4:
+                    System.out.print("Please input new price: ");
+                    computer.setPrice(Scan.getScanner().nextDouble());
+                    break;
+                case 5:
+                    return;
+            }
+            System.out.println("Information has been changed.");
+            displayComputerInfo(computer);
+            changeComputerInfoImpl(computer);
+        } catch (Exception e) {
+            System.out.println("Please input the valid number from 1 to 5");
+            Scan.reset();
+            changeComputerInfoImpl(computer);
+        }
     }
 
     private void addComputer() {
@@ -53,7 +151,7 @@ public class ComputerStore {
         int computerNum = Scan.getScanner().nextInt();
         if (hasEnoughSpace(computerNum)) {
             for (int i = 0; i < computerNum; i++) {
-                System.out.println("We need information for computer " + i + 1);
+                System.out.println("We need information for computer " + (i + 1));
                 addComputer2Inventory();
             }
         } else {
@@ -62,13 +160,13 @@ public class ComputerStore {
     }
 
     private void addComputer2Inventory() {
-        System.out.print("Please input the brand: ");
+        System.out.print("Please input the brand(String): ");
         String brand = Scan.getScanner().next();
-        System.out.print("Please input the model: ");
+        System.out.print("Please input the model(String): ");
         String model = Scan.getScanner().next();
-        System.out.print("Please input the SN: ");
+        System.out.print("Please input the SN(Long): ");
         Long sn = Scan.getScanner().nextLong();
-        System.out.print("Please input the price: ");
+        System.out.print("Please input the price(Double): ");
         Double price = Scan.getScanner().nextDouble();
         inventory[currentComputerNum] = new Computer(brand, model, sn, price);
         currentComputerNum++;
@@ -85,6 +183,14 @@ public class ComputerStore {
         System.out.println("Welcome to Zexin and Sijie computer store.");
     }
 
+    private void displayComputerInfo(Computer computer) {
+        System.out.println("Brand: " + computer.getBrand());
+        System.out.println("Model: " + computer.getModel());
+        System.out.println("SN: " + computer.getSN());
+        System.out.println("Price: $" + computer.getPrice());
+    }
+
+
     public void displayMenu() {
         System.out.print("What do you want to do?\n" +
                 "1. Enter new computers (password required)\n" +
@@ -93,5 +199,19 @@ public class ComputerStore {
                 "4. Display all computers under a certain a price.\n" +
                 "5. Quit\n" +
                 "Please enter your choice > ");
+    }
+
+    private void displayChangeComputerInfo() {
+        System.out.print("What information would you like to change?\n" +
+                "1. brand\n" +
+                "2. model\n" +
+                "3. SN\n" +
+                "4. price\n" +
+                "5. Quit\n" +
+                "Enter your choice > ");
+    }
+
+    public void displayGoodBye() {
+        System.out.println("Thank you for using, bye bye!");
     }
 }

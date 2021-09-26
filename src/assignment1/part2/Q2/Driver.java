@@ -1,5 +1,7 @@
 package assignment1.part2.Q2;
 
+import assignment1.part2.Q1.Computer;
+
 public class Driver {
     public static void main(String[] args) {
         // print hello message
@@ -10,6 +12,10 @@ public class Driver {
         while(true) {
             computerStore.displayMenu();
             int nextOption = Scan.getScanner().nextInt();
+            if (nextOption == 5) {
+                computerStore.displayGoodBye();
+                return;
+            }
             computerStore.route(nextOption);
         }
 
@@ -20,3 +26,4 @@ public class Driver {
         return Scan.getScanner().nextInt();
     }
 }
+
