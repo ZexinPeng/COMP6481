@@ -1,5 +1,11 @@
 package assignment1.part2.Q1;
 
+// -----------------------------------------------------
+// Assignment 1
+// © Sijie Min, Zexin Peng
+// Written by: Sijie Min 40152234, Zexin Peng 40166520
+// -----------------------------------------------------
+
 public class Computer {
     private String brand;
     private String model;
@@ -46,13 +52,16 @@ public class Computer {
         return "Computer [brand=" + brand + ", model=" + model + ", SN=" + SN + ", price=" + price + "]";
     }
     public boolean equals(Computer c) {
+        if (c == null) {
+            return false;
+        }
         if(this==c)
             return true;
-        else if(this.brand.equals(c.brand)&&
+        if(this.brand.equals(c.brand)&&
                 this.model.equals(c.model)&&
-                this.price==c.price)
+                this.price==c.price) {
             return true;
-        else
-            return false;
+        }
+        return false;
     }
 }

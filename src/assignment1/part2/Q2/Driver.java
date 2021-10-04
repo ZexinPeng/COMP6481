@@ -1,6 +1,10 @@
 package assignment1.part2.Q2;
 
-import assignment1.part2.Q1.Computer;
+// -----------------------------------------------------
+// Assignment 1
+// © Sijie Min, Zexin Peng
+// Written by: Sijie Min 40152234, Zexin Peng 40166520
+// -----------------------------------------------------
 
 public class Driver {
     public static void main(String[] args) {
@@ -12,10 +16,12 @@ public class Driver {
         while(true) {
             computerStore.displayMenu();
             int nextOption = Scan.getScanner().nextInt();
+            // exit if the option is 5
             if (nextOption == 5) {
                 computerStore.displayGoodBye();
                 return;
             }
+            // route the request
             computerStore.route(nextOption);
         }
 

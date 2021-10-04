@@ -4,6 +4,12 @@ import assignment1.part2.Q1.Computer;
 
 import java.util.LinkedList;
 
+// -----------------------------------------------------
+// Assignment 1
+// © Sijie Min, Zexin Peng
+// Written by: Sijie Min 40152234, Zexin Peng 40166520
+// -----------------------------------------------------
+
 public class ComputerStore {
 
     private Computer[] inventory;
@@ -14,6 +20,7 @@ public class ComputerStore {
         inventory = new Computer[maxComputers];
     }
 
+    // concrete router
     public void route(int option) {
         switch (option) {
             case 1:
@@ -32,8 +39,12 @@ public class ComputerStore {
     }
 
     private void option4() {
+        System.out.print("please input the price: ");
         double price = Scan.getScanner().nextDouble();
         LinkedList<Computer> computerList = findCheaperThan(price);
+        if (computerList.size() == 0) {
+            System.out.println("no computer found!");
+        }
         for (Computer computer: computerList) {
             displayComputerInfo(computer);
         }
@@ -42,6 +53,9 @@ public class ComputerStore {
     private LinkedList<Computer> findCheaperThan(double price) {
         LinkedList<Computer> computerList = new LinkedList<>();
         for (Computer computer: inventory) {
+            if (computer == null) {
+                return computerList;
+            }
             if (computer.getPrice() < price) {
                 computerList.add(computer);
             }
@@ -50,8 +64,12 @@ public class ComputerStore {
     }
 
     private void option3() {
+        System.out.print("please input the brand name: ");
         String brand = Scan.getScanner().next();
         LinkedList<Computer> computerList = findComputerByBrand(brand);
+        if (computerList.size() == 0) {
+            System.out.println("no computer found!");
+        }
         for (Computer computer: computerList) {
             displayComputerInfo(computer);
         }
@@ -60,6 +78,9 @@ public class ComputerStore {
     private LinkedList<Computer> findComputerByBrand(String brand) {
         LinkedList<Computer> computerList = new LinkedList<>();
         for (Computer computer: inventory) {
+            if (computer == null) {
+                return computerList;
+            }
             if (computer.getBrand().equals(brand)) {
                 computerList.add(computer);
             }
@@ -67,6 +88,10 @@ public class ComputerStore {
         return computerList;
     }
 
+    /**
+     * This method will validate the password and route the request by the option
+     * @param option the option entered by the user
+     */
     private void validatePassword(int option) {
         // only three time try
         for (int i = 0; i < 3; i++) {
@@ -165,18 +190,15 @@ public class ComputerStore {
         System.out.print("Please input the model(String): ");
         String model = Scan.getScanner().next();
         System.out.print("Please input the SN(Long): ");
-        Long sn = Scan.getScanner().nextLong();
+        long sn = Scan.getScanner().nextLong();
         System.out.print("Please input the price(Double): ");
-        Double price = Scan.getScanner().nextDouble();
+        double price = Scan.getScanner().nextDouble();
         inventory[currentComputerNum] = new Computer(brand, model, sn, price);
         currentComputerNum++;
     }
 
     private boolean hasEnoughSpace(int computerNum) {
-        if (computerNum > inventory.length - currentComputerNum) {
-            return false;
-        }
-        return true;
+        return computerNum <= inventory.length - currentComputerNum;
     }
 
     public static void printHelloMessage() {
