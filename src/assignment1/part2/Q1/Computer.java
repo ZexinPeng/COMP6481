@@ -12,6 +12,15 @@ public class Computer {
     private long SN;
     private double price;
     private static int counter;
+    
+    public Computer() {
+    	this.brand="unknow";
+    	this.model="unknow";
+    	this.SN=0;
+    	this.price=9999;
+    	counter++;
+    }
+    
     public Computer(String brand,String model,long SN,double price) {
         this.brand=brand;
         this.model=model;
@@ -19,6 +28,15 @@ public class Computer {
         this.price=price;
         counter++;
     }
+    
+    public Computer(Computer other) {
+    	this.brand=other.brand;
+    	this.model=other.model;
+    	this.SN=other.SN;
+    	this.price=price;
+    	counter++;
+    }
+    
     public String getBrand() {
         return brand;
     }
@@ -46,6 +64,9 @@ public class Computer {
     }
     public static int findNumberOfCreatedComputers() {
         return counter;
+    }
+    public static void setNumberOfCreatedComputers(int num) {
+        counter=num;
     }
     @Override
     public String toString() {
