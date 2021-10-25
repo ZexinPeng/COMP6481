@@ -1,14 +1,12 @@
-package assignment2.part1;
+package assignment2.part1.q2;
 
-import java.util.LinkedList;
-
-public class MyStack {
+public class MyStackCase1 {
     private int[] arr;
     private int first;
     private int second;
 
     public static void main(String[] args) {
-        MyStack ms = new MyStack(4);
+        MyStackCase1 ms = new MyStackCase1(4);
         ms.pushFirst(1);
         System.out.println(ms.sizeFirst());
         ms.pushFirst(2);
@@ -32,7 +30,7 @@ public class MyStack {
         System.out.println(ms.sizeSecond());
     }
 
-    public MyStack(int size) {
+    public MyStackCase1(int size) {
         arr = new int[size];
         first = arr.length / 2 - 1;
         second = arr.length / 2;

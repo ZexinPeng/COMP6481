@@ -1,6 +1,7 @@
-package assignment2.part1;
+package assignment2.part1.q1;
 
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Q1 {
     public static void main(String[] args) {
@@ -23,8 +24,8 @@ public class Q1 {
     }
 
     private void solution2(int[] arr) {
-        Stack<Integer> indexStack = new Stack<>();
-        Stack<Integer> timesStack = new Stack<>();
+        Queue<Integer> indexStack = new LinkedList<>();
+        Queue<Integer> timesStack = new LinkedList<>();
         for (int i = 0; i < arr.length - 1; i++) {
             int index = i;
             int times = 1;
@@ -33,13 +34,13 @@ public class Q1 {
                 i = j;
             }
             if (times > 1) {
-                indexStack.push(index);
-                timesStack.push(times);
+                indexStack.add(index);
+                timesStack.add(times);
             }
         }
-        while(!indexStack.empty()) {
-            int index = indexStack.pop();
-            System.out.println("Value " + arr[index] + " is repeated " + timesStack.pop() + " times starting at Index " + index);
+        while(!indexStack.isEmpty()) {
+            int index = indexStack.poll();
+            System.out.println("Value " + arr[index] + " is repeated " + timesStack.poll() + " times starting at Index " + index);
         }
 
     }
