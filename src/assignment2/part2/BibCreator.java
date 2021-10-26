@@ -1,9 +1,6 @@
 package assignment2.part2;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -11,15 +8,16 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class BibCreator {
+    static final String FILE_DIR = "./Files/";
+    static final String OUTPUT_DIR = "./Files/out/";
+
     public static void main(String[] args) {
         System.out.println("Welcome to BibCreator!\n");
         int N = 10;
-        String dir = "./Files/";
-        String saveDir = "./Files/out/";
         File[] bibFiles = new File[N];
         Scanner[] bibScanners = new Scanner[N];
         for (int i = 1; i <= N; i++) {
-            String filePath = dir + "Latex" + i + ".bib";
+            String filePath = FILE_DIR + "Latex" + i + ".bib";
             bibFiles[i - 1] = new File(filePath);
             bibScanners[i - 1] = getInputScanner(bibFiles[i - 1]);
             if (bibScanners[i - 1] == null) {
@@ -28,14 +26,14 @@ public class BibCreator {
             }
         }
         // create the output dictionary if not exists
-        createDictionaryIfNotExists(new File(saveDir));
+        createDictionaryIfNotExists(new File(OUTPUT_DIR));
 
         File[][] jsonFiles = new File[N][3];
         PrintWriter[][] jsonPWs = new PrintWriter[N][3];
         for (int i = 1; i <= N; i++) {
-            jsonFiles[i - 1][0] = new File(saveDir + "IEEE" + i + ".json");
-            jsonFiles[i - 1][1] = new File(saveDir + "ACM" + i + ".json");
-            jsonFiles[i - 1][2] = new File(saveDir + "NJ" + i + ".json");
+            jsonFiles[i - 1][0] = new File(OUTPUT_DIR + "IEEE" + i + ".json");
+            jsonFiles[i - 1][1] = new File(OUTPUT_DIR + "ACM" + i + ".json");
+            jsonFiles[i - 1][2] = new File(OUTPUT_DIR + "NJ" + i + ".json");
             jsonPWs[i - 1][0] = getOutputWriter(jsonFiles[i - 1][0]);
             jsonPWs[i - 1][1] = getOutputWriter(jsonFiles[i - 1][1]);
             jsonPWs[i - 1][2] = getOutputWriter(jsonFiles[i - 1][2]);
@@ -69,11 +67,54 @@ public class BibCreator {
         } else {
             System.out.println("All files have been created.");
         }
-        System.out.println("Please enter the name of one of the files that you need to review:");
-
 
         closeAll(bibScanners);
         closeAll(jsonPWs);
+
+        Scanner scanner = new Scanner(System.in);
+        int tryTime = 0;
+        BufferedReader br = null;
+        String fileName = null;
+        for (int i = 0; i < 2; i++) {
+            System.out.print("Please enter the name of one of the files that you need to review:");
+            fileName = scanner.next();
+            try {
+                br = checkFileName(fileName);
+            } catch (FileNotFoundException e) {
+                if (tryTime == 0) {
+                    System.out.println("could not open input file. File does not exist; possibly it could not be created!");
+                    System.out.println();
+                    System.out.println("However, you will be allowed another chance to enter another file name.");
+                } else if (tryTime == 1){
+                    System.out.println();
+                    System.out.println("could not open input file again! Either File does not exist or could not be created.");
+                    System.out.println("Sorry! I am unable to display your desired files! program will exit!");
+                }
+                tryTime++;
+            }
+            if (br != null) {
+                break;
+            }
+        }
+        System.out.println("Here are the contents of the successfully created Json File:" + fileName);
+        try {
+            String line = br.readLine();
+            while (line != null) {
+                System.out.println(line);
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Goodbye! Hope you have enjoyed creating the needed files using BibCreator.");
+    }
+
+    private static BufferedReader checkFileName(String fileName) throws FileNotFoundException{
+        File file = new File(OUTPUT_DIR, fileName);
+        if (!file.exists()) {
+            throw new FileNotFoundException();
+        }
+        return new BufferedReader(new FileReader(file));
     }
 
     private static void createDictionaryIfNotExists(File file) {
