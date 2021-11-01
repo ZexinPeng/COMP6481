@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * This class is the bib creator.
+ * @author 40152234 Sijie Min    40166520   Zexin Peng
+ */
 public class BibCreator {
     static final String FILE_DIR = "./Files/";
     static final String OUTPUT_DIR = "./Files/out/";
@@ -109,6 +113,12 @@ public class BibCreator {
         System.out.println("Goodbye! Hope you have enjoyed creating the needed files using BibCreator.");
     }
 
+    /**
+     * This method will check the file with the input file name whether exists
+     * @param fileName the file name
+     * @return bufferReader of the file
+     * @throws FileNotFoundException if file does not exist
+     */
     private static BufferedReader checkFileName(String fileName) throws FileNotFoundException{
         File file = new File(OUTPUT_DIR, fileName);
         if (!file.exists()) {
@@ -117,12 +127,21 @@ public class BibCreator {
         return new BufferedReader(new FileReader(file));
     }
 
+    /**
+     * This method will create the dictionary with the input name if it does not exist
+     * @param file the dictionary name
+     */
     private static void createDictionaryIfNotExists(File file) {
         if (!file.isDirectory()) {
             file.mkdir();
         }
     }
 
+    /**
+     * This method will return the PrintWriter object of the input file.
+     * @param file file name
+     * @return the PrintWriter object of the input file.
+     */
     public static PrintWriter getOutputWriter(File file) {
         try {
             return new PrintWriter(file);
@@ -132,6 +151,11 @@ public class BibCreator {
         }
     }
 
+    /**
+     * This method will get the Scanner object of the file with input file name
+     * @param file the file name
+     * @return the Scanner object
+     */
     public static Scanner getInputScanner(File file) {
         try {
             return new Scanner(file);
@@ -142,6 +166,10 @@ public class BibCreator {
         }
     }
 
+    /**
+     * This method will close all scanners.
+     * @param arr the scanner array
+     */
     public static void closeAll(Scanner[] arr) {
         for (Scanner sc : arr) {
             if (sc != null)
@@ -149,6 +177,10 @@ public class BibCreator {
         }
     }
 
+    /**
+     * This method will close all PrintWriter objects
+     * @param pws PrintWriter array
+     */
     public static void closeAll(PrintWriter[][] pws) {
         for (PrintWriter[] arr : pws)
             for (PrintWriter pw : arr)
@@ -156,6 +188,10 @@ public class BibCreator {
                     pw.close();
     }
 
+    /**
+     * This method will delete the input file
+     * @param file the file needs to be deleted
+     */
     public static void deleteIfExist(File file) {
         if (file != null && file.exists()) {
 
@@ -167,6 +203,11 @@ public class BibCreator {
         }
     }
 
+    /**
+     * This method will construct the ieee format article.
+     * @param article the article map
+     * @return the string content
+     */
     public static String ieeeFormat(Map<String, String> article) {
         return article.get("author").replace(" and ", ", ") + ". \"" + article.get("title")
                 + "\", " + article.get("journal") + ", Vol. " + article.get("volume") + ", no. "
@@ -174,6 +215,11 @@ public class BibCreator {
                 + article.get("month") + " " + article.get("year") + ".";
     }
 
+    /**
+     * This method will construct the acm format article.
+     * @param article the article map
+     * @return the string content
+     */
     public static String acmFormat(Map<String, String> article) {
         String author = article.get("author");
         String[] names = author.split(" and ");
@@ -183,12 +229,26 @@ public class BibCreator {
                 + ". DOI:https://doi.org/" + article.get("doi") + ".";
     }
 
+    /**
+     * This method will construct the nj format article.
+     * @param article the article map
+     * @return the string content
+     */
     public static String njFormat(Map<String, String> article) {
         return article.get("author").replace(" and ", " & ") + ". " + article.get("title")
                 + ". " + article.get("journal") + ". " + article.get("volume") + ", "
                 + article.get("pages") + "(" + article.get("year") + ").";
     }
 
+    /**
+     * This method will check the input file's format whether is valid
+     * @param currentFile the current file
+     * @param fi the scanner
+     * @param ieee ieee format
+     * @param acm acm format
+     * @param nj nj format
+     * @return the file whether is valid
+     */
     public static boolean processFilesForValidation(String currentFile, Scanner fi,
             PrintWriter ieee, PrintWriter acm, PrintWriter nj) {
         String line;
@@ -225,6 +285,14 @@ public class BibCreator {
         return true;
     }
 
+    /**
+     * Thiw method will write the article into its according three files.
+     * @param ieee the ieee file
+     * @param acm the acm file
+     * @param nj the nj file
+     * @param counter the counter for acm file
+     * @param article the article map
+     */
     private static void writeArticle(PrintWriter ieee, PrintWriter acm, PrintWriter nj, int counter, Map<String,String> article) {
         String ieeeFormat = ieeeFormat(article);
         String acmFormat = acmFormat(article);

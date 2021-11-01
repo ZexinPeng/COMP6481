@@ -81,6 +81,8 @@ public class ComputerStore {
             if (computer == null) {
                 return computerList;
             }
+            String str = "abc";
+            String str1 = new String("abc");
             if (computer.getBrand().equals(brand)) {
                 computerList.add(computer);
             }
