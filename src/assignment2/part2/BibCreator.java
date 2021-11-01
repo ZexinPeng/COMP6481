@@ -100,15 +100,17 @@ public class BibCreator {
                 break;
             }
         }
-        System.out.println("Here are the contents of the successfully created Json File:" + fileName);
-        try {
-            String line = br.readLine();
-            while (line != null) {
-                System.out.println(line);
-                line = br.readLine();
+        if (br != null) {
+            System.out.println("Here are the contents of the successfully created Json File:" + fileName);
+            try {
+                String line = br.readLine();
+                while (line != null) {
+                    System.out.println(line);
+                    line = br.readLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         System.out.println("Goodbye! Hope you have enjoyed creating the needed files using BibCreator.");
     }
