@@ -16,6 +16,7 @@ public class BibCreator {
     static final String OUTPUT_DIR = "./Files/out/";
 
     public static void main(String[] args) {
+        System.out.println(0 > Double.MAX_VALUE);
         System.out.println("Welcome to BibCreator!\n");
         int N = 10;
         File[] bibFiles = new File[N];
@@ -160,9 +161,9 @@ public class BibCreator {
      */
     public static Scanner getInputScanner(File file) {
         try {
-            return new Scanner(file);
+            return new Scanner(file, "GBK");
         } catch (FileNotFoundException e) {
-            System.out.println("Could not open input file " + file.getPath() + " for reading.\n\n"
+            System.out.println("Could not open input file " + file.getName() + " for reading.\n\n"
                     + "Please check if file exists! Program will terminate after closing any opened files.");
             return null;
         }
@@ -258,7 +259,7 @@ public class BibCreator {
         int idxOfEq;
         int counter = 0;
         try {
-            while (fi.hasNext()) {
+            while (fi.hasNextLine()) {
                 line = fi.nextLine();
                 line = line.trim();
                 if (line.startsWith("@ARTICLE") && !article.isEmpty()) {
