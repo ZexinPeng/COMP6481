@@ -16,7 +16,6 @@ public class BibCreator {
     static final String OUTPUT_DIR = "./Files/out/";
 
     public static void main(String[] args) {
-        System.out.println(0 > Double.MAX_VALUE);
         System.out.println("Welcome to BibCreator!\n");
         int N = 10;
         File[] bibFiles = new File[N];
