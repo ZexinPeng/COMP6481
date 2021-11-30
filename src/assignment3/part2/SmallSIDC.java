@@ -1,9 +1,34 @@
 package assignment3.part2;
 
+import java.util.Random;
+
 public class SmallSIDC implements CleverSIDC{
+    private int size;
+    private ListNode head;
+
+    public SmallSIDC() {
+        size = 0;
+        head = new ListNode();
+    }
+
     @Override
     public int generate() {
-        return 0;
+        int key = new Random().nextInt((int)Math.pow(10, 8));
+        while (contains(key)) {
+            key = new Random().nextInt((int)Math.pow(10, 8));
+        }
+        return key;
+    }
+
+    private boolean contains(int key) {
+        ListNode cur = head.next;
+        while (cur != null) {
+            if (cur.key == key) {
+                return true;
+            }
+            cur = cur.next;
+        }
+        return false;
     }
 
     @Override
@@ -12,37 +37,108 @@ public class SmallSIDC implements CleverSIDC{
     }
 
     @Override
-    public ListNode allKeys() {
-        return null;
+    public int[] allKeys() {
+        int[] res = new int[size];
+        ListNode cur = head.next;
+        int index = 0;
+        while (cur != null) {
+            res[index++] = cur.key;
+            cur = cur.next;
+        }
+        return res;
     }
 
     @Override
     public void add(int key, String value) {
-
+        size++;
+        ListNode cur = head;
+        while (cur.next != null) {
+            if (key < cur.next.key) {
+                ListNode tmp = new ListNode(key, value, cur.next, cur);
+                cur.next.prev = tmp;
+                cur.next = tmp;
+                return;
+            }
+            cur = cur.next;
+        }
+        cur.next = new ListNode(key, value, null, cur);
     }
 
     @Override
     public void remove(int key) {
-
+        ListNode cur = head;
+        while (cur.next != null) {
+            if (key == cur.next.key) {
+                size--;
+                ListNode next = cur.next;
+                cur.next = cur.next.next;
+                if (cur.next != null) {
+                    cur.next.prev = cur;
+                }
+                next.next = null;
+                next.prev = null;
+                return;
+            }
+            cur = cur.next;
+        }
     }
 
     @Override
     public String getValues(int key) {
-        return null;
+        ListNode cur = head.next;
+        while (cur != null && cur.key != key) {
+            cur = cur.next;
+        }
+        return cur == null ? null : cur.value;
     }
 
     @Override
     public int nextKey(int key) {
-        return 0;
+        ListNode cur = head.next;
+        while (cur != null && cur.key != key) {
+            cur = cur.next;
+        }
+        return cur == null || cur.next == null ? -1 : cur.next.key;
     }
 
     @Override
     public int prevKey(int key) {
-        return 0;
+        ListNode cur = head.next;
+        while (cur != null && cur.key != key) {
+            cur = cur.next;
+        }
+        return cur == null || cur.prev == head ? -1 : cur.prev.key;
     }
 
     @Override
     public int rangeKey(int key1, int key2) {
-        return 0;
+        ListNode cur = head.next;
+        while (cur != null && cur.key < key1) {
+            cur = cur.next;
+        }
+        int res = 0;
+        while (cur != null && cur.key <= key2) {
+            cur = cur.next;
+            res++;
+        }
+        return res;
+    }
+
+    static class ListNode {
+        int key;
+        String value;
+        ListNode next;
+        ListNode prev;
+
+        public ListNode() {
+            key = -1;
+        }
+
+        public ListNode(int key, String value, ListNode next, ListNode prev) {
+            this.key = key;
+            this.value = value;
+            this.next = next;
+            this.prev = prev;
+        }
     }
 }

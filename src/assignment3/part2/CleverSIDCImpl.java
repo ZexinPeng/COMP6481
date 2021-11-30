@@ -18,7 +18,7 @@ public class CleverSIDCImpl implements CleverSIDC{
     }
 
     @Override
-    public ListNode allKeys() {
+    public int[] allKeys() {
         return cleverSIDC.allKeys();
     }
 

@@ -3,7 +3,7 @@ package assignment3.part2;
 public interface CleverSIDC {
 	int generate();
 	void setSIDCThreshold (int size);
-	ListNode allKeys();
+	int[] allKeys();
 	void add(int key, String value);
 	void remove(int key);
 	String getValues(int key);
