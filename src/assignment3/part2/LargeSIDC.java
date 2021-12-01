@@ -51,7 +51,7 @@ public class LargeSIDC implements CleverSIDC{
 
     /**
      * if the key does not exist, return -1
-     * @param key
+     * @param key the key
      * @return the next Key
      */
     @Override
@@ -104,7 +104,7 @@ public class LargeSIDC implements CleverSIDC{
             while (node != null && node.key < key) {
                 node = node.parent;
             }
-            return node == null ? null: node;
+            return node;
         }
     }
 
@@ -158,46 +158,45 @@ public class LargeSIDC implements CleverSIDC{
             while (node != null && node.key >= key) {
                 node = node.parent;
             }
-            return node == null ? null: node;
+            return node;
         }
     }
 
     @Override
     public int rangeKey(int key1, int key2) {
-        // find the position of key1
-        Node node = root;
+        if (key1 > key2) {
+            int tmp = key2;
+            key1 = key2;
+            key2 = tmp;
+        }
+        int res = 0;
         Node node1, node2;
-        while (node != null) {
-            if (node.key > key1) {
-                if (node.left != null && node.left.key < key1)
-                node = node.right;
-            } else if (node.key > key1) {
-                node = node.left;
-            } else {
-                break;
-            }
-        }
-        if (node == null) {
-            return -1;
-        }
-        Node last;
-        while (node != null && node.key <= key2) {
-            last = node;
-            if (node.key < key1) {
-                node = node.right;
-            } else if (node.key > key1) {
-                node = node.left;
-            } else {
-                break;
-            }
-        }
-        if (node == null) {
-            return -1;
-        }
-        node1 = node;
-        System.out.println(node1.key);
+        node1 = searchTree(key1);
+        node2 = searchTree(key2);
 
-        return 0;
+        if (node1 == null) {
+            node1 = nextKeyNode(key1);
+            // ceiling is too large
+            if (node1 == null) {
+                return res;
+            }
+        }
+        if (node2 == null) {
+            node2 = prevKeyNode(key2);
+            // floor is too small
+            if (node2 == null) {
+                return res;
+            }
+        }
+        // key1 and key2 within two nodes
+        if (node1.key > node2.key) {
+            return res;
+        }
+        while (node1 != node2) {
+            res++;
+            node1 = nextNode(node1);
+        }
+        return res + 1;
     }
 
     private int preorder(Node node, int[] keys, int index) {

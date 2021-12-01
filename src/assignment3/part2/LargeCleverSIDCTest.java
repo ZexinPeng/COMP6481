@@ -14,8 +14,9 @@ public class LargeCleverSIDCTest {
         cleverSIDC.add(8, val);
         cleverSIDC.add(1000, val);
 
-        int[] keys = cleverSIDC.allKeys();
+        cleverSIDC.prettyPrint();
 
+        int[] keys = cleverSIDC.allKeys();
         System.out.println("key sets");
         for (int key: keys) {
             System.out.print(" " + key);
@@ -49,5 +50,13 @@ public class LargeCleverSIDCTest {
             System.out.print(" " + cleverSIDC.nextKey(key - 5));
         }
         System.out.println();
+
+        System.out.println("range key test");
+        System.out.println(cleverSIDC.rangeKey(1,8));
+        System.out.println(cleverSIDC.rangeKey(0,9));
+        System.out.println(cleverSIDC.rangeKey(1,33211));
+        System.out.println(cleverSIDC.rangeKey(1,33210));
+        System.out.println(cleverSIDC.rangeKey(2,7));
+
     }
 }
