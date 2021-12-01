@@ -1,5 +1,8 @@
 package assignment3.part2;
 
+import java.util.LinkedList;
+import java.util.List;
+
 //package assignment3.part2;
 //
 //import java.io.BufferedReader;
@@ -9,7 +12,7 @@ package assignment3.part2;
 //import java.util.ArrayList;
 //import java.util.Random;
 //
-//public class Main {
+//public class SmallCleverSIDCTest {
 //	static Random rand=new Random(123);
 //
 //	public static void test(String filePath,int mode) {
@@ -57,7 +60,7 @@ package assignment3.part2;
 //	}
 //
 //}
-public class Main {
+public class SmallCleverSIDCTest {
 	private static final String val = "val";
 	public static void main(String[] args) {
 		CleverSIDC cleverSIDC = new CleverSIDCImpl();
