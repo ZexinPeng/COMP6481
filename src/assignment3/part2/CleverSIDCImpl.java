@@ -24,6 +24,7 @@ public class CleverSIDCImpl implements CleverSIDC{
     public void add(int key, String value) {
         cleverSIDC.add(key, value);
         size++;
+
     }
 
     @Override

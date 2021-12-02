@@ -1,10 +1,12 @@
-package assignment3.part2;
+package test.assignment3.part2;
 
-public class CleverSIDCTest {
+import assignment3.part2.AVL;
+
+public class AVLTest {
     private static final String val = "val";
     public static void main(String[] args) {
-        CleverSIDCImpl cleverSIDC = new CleverSIDCImpl();
-        cleverSIDC.setSIDCThreshold(20000);
+        AVL cleverSIDC = new AVL();
+        cleverSIDC.setSIDCThreshold(100);
         cleverSIDC.add(100, val);
         cleverSIDC.add(2330, val);
         cleverSIDC.add(30, val);
@@ -14,7 +16,7 @@ public class CleverSIDCTest {
         cleverSIDC.add(8, val);
         cleverSIDC.add(1000, val);
 
-        cleverSIDC.prettyPrint();
+        cleverSIDC.print();
 
         int[] keys = cleverSIDC.allKeys();
         System.out.println("key sets");
@@ -24,17 +26,17 @@ public class CleverSIDCTest {
         System.out.println();
 
         System.out.println("prev node test");
-        CleverSIDCImpl.Node node = cleverSIDC.searchTree(33210);
+        AVL.Node node = cleverSIDC.searchTree(cleverSIDC.getRoot(), 33210);
         while (node != null) {
-            System.out.print(" " + node.key);
+            System.out.print(" " + node.getKey());
             node = cleverSIDC.prevNode(node);
         }
         System.out.println();
 
         System.out.println("next node test");
-        node = cleverSIDC.searchTree(1);
+        node = cleverSIDC.searchTree(cleverSIDC.getRoot(), 1);
         while (node != null) {
-            System.out.print(" " + node.key);
+            System.out.print(" " + node.getKey());
             node = cleverSIDC.nextNode(node);
         }
         System.out.println();
@@ -57,6 +59,5 @@ public class CleverSIDCTest {
         System.out.println(cleverSIDC.rangeKey(1,33211));
         System.out.println(cleverSIDC.rangeKey(1,33210));
         System.out.println(cleverSIDC.rangeKey(2,7));
-
     }
 }
