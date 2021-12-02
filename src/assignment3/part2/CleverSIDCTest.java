@@ -1,9 +1,9 @@
 package assignment3.part2;
 
-public class LargeCleverSIDCTest {
+public class CleverSIDCTest {
     private static final String val = "val";
     public static void main(String[] args) {
-        LargeSIDC cleverSIDC = new LargeSIDC();
+        CleverSIDCImpl cleverSIDC = new CleverSIDCImpl();
         cleverSIDC.setSIDCThreshold(20000);
         cleverSIDC.add(100, val);
         cleverSIDC.add(2330, val);
@@ -24,7 +24,7 @@ public class LargeCleverSIDCTest {
         System.out.println();
 
         System.out.println("prev node test");
-        LargeSIDC.Node node = cleverSIDC.searchTree(33210);
+        CleverSIDCImpl.Node node = cleverSIDC.searchTree(33210);
         while (node != null) {
             System.out.print(" " + node.key);
             node = cleverSIDC.prevNode(node);
