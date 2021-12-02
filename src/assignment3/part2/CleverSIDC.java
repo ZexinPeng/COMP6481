@@ -5,7 +5,7 @@ public interface CleverSIDC {
 	void setSIDCThreshold (int size);
 	int[] allKeys();
 	void add(int key, String value);
-	void remove(int key);
+	boolean remove(int key);
 	String getValues(int key);
 	int nextKey(int key);
 	int prevKey(int key);
