@@ -24,7 +24,9 @@ public class CleverSIDCImpl implements CleverSIDC{
     public void add(int key, String value) {
         cleverSIDC.add(key, value);
         size++;
-
+        if (size > threshold && ! (cleverSIDC instanceof AVL)) {
+            cleverSIDC = new AVL((LinkedList) cleverSIDC);
+        }
     }
 
     @Override
@@ -32,6 +34,9 @@ public class CleverSIDCImpl implements CleverSIDC{
         boolean res = cleverSIDC.remove(key);
         if (res) {
             size--;
+            if (size <= threshold && ! (cleverSIDC instanceof LinkedList)) {
+                cleverSIDC = new LinkedList((AVL) cleverSIDC);
+            }
         }
         return res;
     }

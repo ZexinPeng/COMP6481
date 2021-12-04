@@ -15,7 +15,6 @@ public class AVL implements CleverSIDC{
         while (node != null) {
             addNode(node.key, node.value);
             node = node.next;
-            size++;
         }
     }
 
