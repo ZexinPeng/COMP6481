@@ -2,6 +2,11 @@ package test.assignment3.part2;
 
 import assignment3.part2.CleverSIDC;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+
 public class Tool {
     static public void printKeys(int[] keys) {
         System.out.println("==============");
@@ -45,5 +50,26 @@ public class Tool {
 
     static public String generateValue(int key) {
         return key + " Zexin Peng 1997/12/04";
+    }
+
+    /**
+     * load data from test file, add all pairs into sidc
+     * @param sidc CleverSIDC
+     * @param filePath String
+     */
+    public static void loadFromFile(CleverSIDC sidc,String filePath) {
+        try {
+            Scanner scan = new Scanner(new File(filePath));
+            while(scan.hasNextLine()) {
+                int key=scan.nextInt();
+                add(sidc, key, generateValue(key));
+            }
+            scan.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        } catch (NoSuchElementException e) {
+            return;
+        }
     }
 }
