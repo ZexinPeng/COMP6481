@@ -101,6 +101,14 @@ public class LinkedList implements CleverSIDC{
         return false;
     }
 
+    private ListNode getNode(int key) {
+        ListNode cur = head.next;
+        while (cur != null && cur.key < key) {
+            cur = cur.next;
+        }
+        return cur == null || cur.key == key? cur : null;
+    }
+
     @Override
     public String getValues(int key) {
         ListNode cur = head.next;
@@ -112,34 +120,67 @@ public class LinkedList implements CleverSIDC{
 
     @Override
     public int nextKey(int key) {
-        ListNode cur = head.next;
-        while (cur != null && cur.key != key) {
+        ListNode node = nextNode(key);
+        return node == null ? -1 : node.key;
+    }
+
+    public ListNode nextNode(int key) {
+        ListNode cur = head;
+        while (cur.next != null && key >= cur.next.key) {
             cur = cur.next;
         }
-        return cur == null || cur.next == null ? -1 : cur.next.key;
+        return cur.next == null ? null : cur.next;
     }
 
     @Override
     public int prevKey(int key) {
-        ListNode cur = head.next;
-        while (cur != null && cur.key != key) {
+        ListNode node = prevNode(key);
+        return node == null ? -1 : node.key;
+    }
+
+    public ListNode prevNode(int key) {
+        ListNode cur = head;
+        while (cur.next != null && key > cur.next.key) {
             cur = cur.next;
         }
-        return cur == null || cur.prev == head ? -1 : cur.prev.key;
+        return cur.key == -1 ? null : cur;
     }
 
     @Override
     public int rangeKey(int key1, int key2) {
-        ListNode cur = head.next;
-        while (cur != null && cur.key < key1) {
-            cur = cur.next;
+        if (key1 > key2) {
+            int tmp = key2;
+            key1 = key2;
+            key2 = tmp;
         }
         int res = 0;
-        while (cur != null && cur.key <= key2) {
-            cur = cur.next;
-            res++;
+        ListNode node1, node2;
+        node1 = getNode(key1);
+        node2 = getNode(key2);
+
+        if (node1 == null) {
+            node1 = nextNode(key1);
+            // ceiling is too large
+            if (node1 == null) {
+                return res;
+            }
         }
-        return res;
+        if (node2 == null) {
+            node2 = prevNode(key2);
+            // floor is too small
+            if (node2 == null) {
+                return res;
+            }
+        }
+        // key1 and key2 within two nodes
+        if (node1.key > node2.key) {
+            return res;
+        }
+        while (node1 != node2) {
+            res++;
+            node1 = node1.next;
+        }
+        return res + 1;
     }
 
     public class ListNode {
