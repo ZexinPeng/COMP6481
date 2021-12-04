@@ -21,10 +21,7 @@ public class CleverSIDCImplTest {
 //        cleverSIDC.remove(1000);
 
         int[] keys = cleverSIDC.allKeys();
-        System.out.println("key sets");
-        for (int key: keys) {
-            System.out.print(" " + key);
-        }
+
         System.out.println();
 
         cleverSIDC.remove(10);

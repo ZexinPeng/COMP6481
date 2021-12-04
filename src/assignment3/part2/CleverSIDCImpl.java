@@ -25,6 +25,9 @@ public class CleverSIDCImpl implements CleverSIDC{
         cleverSIDC.add(key, value);
         size++;
         if (size > threshold && ! (cleverSIDC instanceof AVL)) {
+            System.out.println("===============");
+            System.out.println("turn from LinkedList to AVL");
+            System.out.println("===============");
             cleverSIDC = new AVL((LinkedList) cleverSIDC);
         }
     }
@@ -35,6 +38,9 @@ public class CleverSIDCImpl implements CleverSIDC{
         if (res) {
             size--;
             if (size <= threshold && ! (cleverSIDC instanceof LinkedList)) {
+                System.out.println("===============");
+                System.out.println("turn from AVL to LinkedList");
+                System.out.println("===============");
                 cleverSIDC = new LinkedList((AVL) cleverSIDC);
             }
         }
