@@ -2,14 +2,25 @@ package assignment3.part2;
 
 import java.util.Random;
 
+/**
+ * This class store all records in an AVL tree
+ * @author Zexin Peng 40166520, Sijie Min 40152234
+ */
 public class AVL implements CleverSIDC{
     int size = 0;
     public Node root;
 
+    /**
+     * constructor
+     */
     public AVL() {
 
     }
 
+    /**
+     * construc from the linked list
+     * @param list the list
+     */
     public AVL(LinkedList list) {
         LinkedList.ListNode node = list.getHead();
         while (node != null) {
@@ -18,6 +29,10 @@ public class AVL implements CleverSIDC{
         }
     }
 
+    /**
+     * This method will generate the key that does not exist
+     * @return the key
+     */
     @Override
     public int generate() {
         int key = new Random().nextInt((int)Math.pow(10, 8));
@@ -27,11 +42,19 @@ public class AVL implements CleverSIDC{
         return key;
     }
 
+    /**
+     * This method will set the threshold
+     * @param size threshold
+     */
     @Override
     public void setSIDCThreshold(int size) {
 
     }
 
+    /**
+     * This method will return all keys in ascending order
+     * @return all keys
+     */
     @Override
     public int[] allKeys() {
         int[] keys = new int[size];
@@ -39,18 +62,31 @@ public class AVL implements CleverSIDC{
         return keys;
     }
 
+    /**
+     * This method will insert the record into the tree
+     * @param key the key
+     * @param value the value
+     */
     @Override
     public void add(int key, String value) {
         addNode(key, value);
-//        prettyPrint();
     }
 
+    /**
+     * This method will remove the node whose key equals to given key in the tree
+     * @param key the removed key
+     * @return true if successfully removed
+     */
     @Override
     public boolean remove(int key) {
         return removeNode(key);
-//        prettyPrint();
     }
 
+    /**
+     * This method will return the value of the given key.
+     * @param key the given key
+     * @return the value of the given key
+     */
     @Override
     public String getValues(int key) {
         Node node = searchTree(root, key);
@@ -68,6 +104,9 @@ public class AVL implements CleverSIDC{
         return next == null ? -1 : next.key;
     }
 
+    /**
+     * This inner class represents the node in the tree.
+     */
     public class Node{
         private int key;
         private String value;
@@ -87,9 +126,6 @@ public class AVL implements CleverSIDC{
         }
         public void setValue(String value){
             this.value=value;
-        }
-        public String value(){
-            return this.value;
         }
         public void setLeft(Node left){
             this.left=left;
@@ -121,14 +157,28 @@ public class AVL implements CleverSIDC{
         public int height() {
             return this.height;
         }
+
+        /**
+         * This method will return the height of left subtree.
+         * @return The height of left subtree
+         */
         public int leftHeight() {
             if(this.left==null)return 0;
             return this.left.height();
         }
+        /**
+         * This method will return the height of rightt subtree.
+         * @return The height of right subtree
+         */
         public int rightHeight() {
             if(this.right==null)return 0;
             return this.right.height();
         }
+
+        /**
+         * This method will judge the tree whether is balanced
+         * @return true if the tree is balanced
+         */
         public boolean isBalanced() {
             int diff=leftHeight()-rightHeight();
             if(diff<2&&diff>-2)return true;
@@ -136,6 +186,11 @@ public class AVL implements CleverSIDC{
         }
     }
 
+    /**
+     * This method will add node into tree
+     * @param key the key
+     * @param value the value
+     */
     public void addNode(int key,String value) {
         if(this.root==null) {
             this.root=new Node(key,value);
@@ -175,6 +230,11 @@ public class AVL implements CleverSIDC{
         keepBalance(temp.parent());
     }
 
+    /**
+     * This method will remove the element with the given key
+     * @param key the given key
+     * @return true if the element is removed
+     */
     public boolean removeNode(int key) {
         Node node=searchTree(root, key);
         if(node==null)return false;
@@ -237,7 +297,11 @@ public class AVL implements CleverSIDC{
         return true;
     }
 
-
+    /**
+     * This method will return the minimum value in the tree
+     * @param node the node
+     * @return the minimum value
+     */
     private Node findMin(Node node) {
         Node target=null;
         Node temp=node;
@@ -248,45 +312,22 @@ public class AVL implements CleverSIDC{
         return target;
     }
 
-    private Node findMax(Node node) {
-        Node target=null;
-        Node temp=node;
-        while(temp!=null) {
-            target=temp;
-            temp=temp.right();
-        }
-        return target;
-    }
-
-    private Node findGreaterParent(Node node) {
-        Node target=null;
-        Node temp=node;
-        while(temp!=null) {
-            target=temp;
-            if(temp.key - node.key>0)break;
-            temp=temp.parent();
-        }
-        return target;
-    }
-
-    private Node findLessParent(Node node) {
-        Node target=null;
-        Node temp=node;
-        while(temp!=null) {
-            target=temp;
-            if(temp.key - node.key<0)break;
-            temp=temp.parent();
-        }
-        return target;
-    }
-
-
+    /**
+     * This method will update the height of the given node
+     * @param node the given node
+     */
     private void updateHeight(Node node) {
         if(node==null)return;
         int maxHeight=node.leftHeight()>node.rightHeight()?node.leftHeight():node.rightHeight();
         node.setHeight(maxHeight+1);
         updateHeight(node.parent());
     }
+
+    /**
+     * This method will perform the right rotation
+     * @param node the node
+     * @return root after rotation
+     */
     private Node rotateRight(Node node) {
         Node parent=node.parent();
         Node left=node.left();
@@ -304,6 +345,12 @@ public class AVL implements CleverSIDC{
         updateHeight(node);
         return left;
     }
+
+    /**
+     * This method will perform the left rotation
+     * @param node the node
+     * @return the root after rotation
+     */
     private Node rotateLeft(Node node) {
         Node parent=node.parent();
         Node right=node.right();
@@ -321,6 +368,11 @@ public class AVL implements CleverSIDC{
         updateHeight(node);
         return right;
     }
+
+    /**
+     * This method will keep balance in the tree
+     * @param node the node
+     */
     private void keepBalance(Node node) {
         if(node==null)return;
         if(node.isBalanced()) {
@@ -348,6 +400,12 @@ public class AVL implements CleverSIDC{
         }
     }
 
+    /**
+     * This method will search the node with given key in the tree
+     * @param node the node
+     * @param key the key
+     * @return null if does not exist
+     */
     public Node searchTree(Node node, int key) {
         if (node == null || key == node.key) {
             return node;
@@ -358,6 +416,13 @@ public class AVL implements CleverSIDC{
         return searchTree(node.right, key);
     }
 
+    /**
+     * This method will traverse the tree in preorder
+     * @param node node
+     * @param keys result array
+     * @param index current index in the array
+     * @return the result array
+     */
     private int preorder(Node node, int[] keys, int index) {
         if (node == null) {
             return index;
@@ -368,6 +433,11 @@ public class AVL implements CleverSIDC{
         return index;
     }
 
+    /**
+     * This method will find the next key node in the tree
+     * @param key key
+     * @return next key node
+     */
     private Node nextKeyNode(int key) {
         if (key < 0 ) {
             return null;
@@ -399,6 +469,11 @@ public class AVL implements CleverSIDC{
         return null;
     }
 
+    /**
+     * This method will find the next key node in the tree
+     * @param node node
+     * @return next key node
+     */
     public Node nextNode(Node node) {
         int key = node.key;
         if (node.right != null) {
@@ -416,12 +491,22 @@ public class AVL implements CleverSIDC{
         }
     }
 
+    /**
+     * This method will find the prev key node in the tree
+     * @param key key
+     * @return prev key node
+     */
     @Override
     public int prevKey(int key) {
         Node prev = prevKeyNode(key);
         return prev == null ? -1 : prev.key;
     }
 
+    /**
+     * This method will find the prev key node in the tree
+     * @param key key
+     * @return prev key node
+     */
     private Node prevKeyNode(int key) {
         if (key >=  (int)Math.pow(10, 8)) {
             return null;
@@ -453,6 +538,11 @@ public class AVL implements CleverSIDC{
         return null;
     }
 
+    /**
+     * This method will find the prev key node in the tree
+     * @param node node
+     * @return prev key node
+     */
     public Node prevNode(Node node) {
         int key = node.key;
         if (node.left != null) {
@@ -470,6 +560,12 @@ public class AVL implements CleverSIDC{
         }
     }
 
+    /**
+     * This method will find the number of nodes between two keys
+     * @param key1 key1
+     * @param key2 key2
+     * @return the number of nodes
+     */
     @Override
     public int rangeKey(int key1, int key2) {
         if (key1 > key2) {
@@ -507,20 +603,36 @@ public class AVL implements CleverSIDC{
         return res + 1;
     }
 
-
-
+    /**
+     * This method will return whether the tree contains the node with the given key
+     * @param key key
+     * @return true if the node exists in the tree
+     */
     private boolean contains(int key) {
         return searchTree(root, key) != null;
     }
 
+    /**
+     * This method will return the root of the tree
+     * @return the root node
+     */
     public Node getRoot() {
         return root;
     }
 
+    /**
+     * This method will print the tree
+     */
     public void print() {
         printHelper(root, "", true);
     }
 
+    /**
+     * This method will print the tree
+     * @param currPtr current node
+     * @param indent result String
+     * @param last true if current node is the right child
+     */
     private void printHelper(Node currPtr, String indent, boolean last) {
         // print the tree structure on the screen
         if (currPtr != null) {

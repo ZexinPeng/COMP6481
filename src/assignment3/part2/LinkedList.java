@@ -2,11 +2,19 @@ package assignment3.part2;
 
 import java.util.Random;
 
+/**
+ * This class store all records in a linked list
+ * @author Zexin Peng 40166520, Sijie Min 40152234
+ */
 public class LinkedList implements CleverSIDC{
     private int size;
     // the dummy head
     private ListNode head;
 
+    /**
+     * Construct the linked list with data from the AVL tree
+     * @param avl AVL
+     */
     public LinkedList(AVL avl) {
         head = new ListNode();
         ListNode cur = head;
@@ -18,16 +26,27 @@ public class LinkedList implements CleverSIDC{
         }
     }
 
+    /**
+     * Default constructor
+     */
     public LinkedList() {
         size = 0;
         // dummy head
         head = new ListNode();
     }
 
+    /**
+     * Get 1st node
+     * @return ListNode, first node
+     */
     public ListNode getHead() {
         return head.next;
     }
 
+    /**
+     * Generates a key that does not exist in the linked list
+     * @return int, new key
+     */
     @Override
     public int generate() {
         int key = new Random().nextInt((int) Math.pow(10, 8));
@@ -37,6 +56,11 @@ public class LinkedList implements CleverSIDC{
         return key;
     }
 
+    /**
+     * Check whether the key exists
+     * @param key int
+     * @return boolean, true if key exists else false
+     */
     private boolean contains(int key) {
         ListNode cur = head.next;
         while (cur != null) {
@@ -53,6 +77,10 @@ public class LinkedList implements CleverSIDC{
 
     }
 
+    /**
+     * Get all keys
+     * @return int[], all keys
+     */
     @Override
     public int[] allKeys() {
         int[] res = new int[size];
@@ -65,6 +93,9 @@ public class LinkedList implements CleverSIDC{
         return res;
     }
 
+    /**
+     * Add a pair, the list is guaranteed to be ordered by key
+     */
     @Override
     public void add(int key, String value) {
         size++;
@@ -81,6 +112,11 @@ public class LinkedList implements CleverSIDC{
         cur.next = new ListNode(key, value, null, cur);
     }
 
+    /**
+     * Remove node by key
+     * @param key int
+     * @return boolean, true if success else false
+     */
     @Override
     public boolean remove(int key) {
         ListNode cur = head;
@@ -101,6 +137,11 @@ public class LinkedList implements CleverSIDC{
         return false;
     }
 
+    /**
+     * Get node by key
+     * @param key
+     * @return ListNode, the node if key exists else null
+     */
     private ListNode getNode(int key) {
         ListNode cur = head.next;
         while (cur != null && cur.key < key) {
@@ -109,6 +150,11 @@ public class LinkedList implements CleverSIDC{
         return cur == null || cur.key == key? cur : null;
     }
 
+    /**
+     * Get value by key
+     * @param key int
+     * @return String, the value corresponding to the key
+     */
     @Override
     public String getValues(int key) {
         ListNode cur = head.next;
@@ -118,12 +164,22 @@ public class LinkedList implements CleverSIDC{
         return cur == null ? null : cur.value;
     }
 
+    /**
+     * Get the next key
+     * @param key int
+     * @return int, next key
+     */
     @Override
     public int nextKey(int key) {
         ListNode node = nextNode(key);
         return node == null ? -1 : node.key;
     }
 
+    /**
+     * Get the next node
+     * @param key int
+     * @return ListNode, next node of the key
+     */
     public ListNode nextNode(int key) {
         ListNode cur = head;
         while (cur.next != null && key >= cur.next.key) {
@@ -132,12 +188,22 @@ public class LinkedList implements CleverSIDC{
         return cur.next == null ? null : cur.next;
     }
 
+    /**
+     * Get previous key
+     * @param key int
+     * @return int, previous key
+     */
     @Override
     public int prevKey(int key) {
         ListNode node = prevNode(key);
         return node == null ? -1 : node.key;
     }
 
+    /**
+     * Get previous node
+     * @param key int
+     * @return ListNode, previous node of the key
+     */
     public ListNode prevNode(int key) {
         ListNode cur = head;
         while (cur.next != null && key > cur.next.key) {
@@ -146,6 +212,12 @@ public class LinkedList implements CleverSIDC{
         return cur.key == -1 ? null : cur;
     }
 
+    /**
+     * Get the number of keys between key1 and key2
+     * @param key1 int, begin
+     * @param key2 int, end
+     * @return int, the number of keys between key1 and key2
+     */
     @Override
     public int rangeKey(int key1, int key2) {
         if (key1 > key2) {
@@ -183,6 +255,9 @@ public class LinkedList implements CleverSIDC{
         return res + 1;
     }
 
+    /**
+     *	Node class of LinkedList
+     */
     public class ListNode {
         int key;
         String value;
